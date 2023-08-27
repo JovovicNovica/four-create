@@ -1,0 +1,26 @@
+.input {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    height: 20px;
+    padding: 2px 0 0 6px;
+  }
+
+  &__field {
+    height: 30px;
+    padding: 0 0 0 5px;
+    border-color: rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border-radius: 4px;
+    outline: none;
+    cursor: text;
+  }
+
+  &__error {
+    height: 20px;
+    color: #f44336;
+    font-size: 0.7rem;
+    padding: 2px 0 0 6px;
+  }
+}

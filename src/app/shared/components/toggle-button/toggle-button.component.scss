@@ -1,0 +1,47 @@
+.toggle-button {
+  &__circle-on {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: #168736;
+    border-radius: 70px;
+    box-sizing: border-box;
+    transform: translateX(30px);
+    transition: 0.3s;
+  }
+
+  &__circle-of {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: #747480;
+    border-radius: 70px;
+    box-sizing: border-box;
+    transform: translateX(0px);
+    transition: 0.3s;
+  }
+
+  &__active {
+    background-color: rgba(22, 135, 54, 0.5);
+    width: 60px;
+    height: 30px;
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.3);
+    border-radius: 70px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in;
+  }
+
+  &__deactive {
+    width: 60px;
+    height: 30px;
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.3);
+    border-radius: 70px;
+    position: relative;
+    cursor: pointer;
+    background-color: rgba(116, 116, 128, 0.5);
+    transition: background-color 0.3s ease-in;
+  }
+}

@@ -1,0 +1,25 @@
+@import "../../scss/mixins.scss";
+
+.table-container {
+  width: 700px;
+  background-color: white;
+  border: 1px solid;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+
+  &__header-button {
+    @include headerPart;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  &__header-title {
+    font-size: 2rem;
+    @include headerPart;
+  }
+
+  &__add-user {
+    @include positonAbsolute(absolute, 0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}

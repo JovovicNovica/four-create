@@ -1,0 +1,9 @@
+<div
+  [ngClass]="data ? 'toggle-button__active' : 'toggle-button__deactive'"
+  (click)="toggleSwitch($event, data)"
+>
+  <span
+    [ngClass]="data ? 'toggle-button__circle-on' : 'toggle-button__circle-of'"
+    (click)="toggleSwitch($event, data)"
+  ></span>
+</div>

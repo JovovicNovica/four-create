@@ -1,0 +1,32 @@
+<div class="input" [formGroup]="parentForm">
+  <label class="input__label" [for]="placeHolder">{{ placeHolder }}: </label>
+  <input
+    #inputField
+    type="text"
+    class="input__field"
+    [id]="placeHolder"
+    [placeholder]="inputName"
+    [formControlName]="inputName"
+    (input)="onInputChange($event)"
+  />
+  <span
+    class="input__error"
+    *ngIf="
+      !parentForm.get('password')?.dirty &&
+      parentForm.get(inputName)?.errors?.userNameExists
+    "
+  >
+    {{ erorrValidator }}
+  </span>
+  <span
+    class="input__error"
+    *ngIf="
+      (!parentForm.get(inputName)?.pristine &&
+        parentForm.get(inputName)?.errors?.required) ||
+      (parentForm.get(inputName)?.touched &&
+        parentForm.get(inputName)?.pristine)
+    "
+  >
+    {{ erorrRequired }}
+  </span>
+</div>

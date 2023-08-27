@@ -1,0 +1,29 @@
+@mixin headerPart {
+  height: 45px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  border-top: 0px solid;
+  border-right: 1px solid;
+  border-left: 1px solid;
+  border-bottom: 1px solid;
+  border-color: rgba(0, 0, 0, 0.1);
+  padding: 5px;
+}
+
+// @mixin positonAbsolute($padding, $margin) {
+//   padding: $padding + px;
+//   margin: $margin + px;
+// }
+
+@mixin positonAbsolute($position, $top: 0, $right: 0, $bottom: 0, $left: 0) {
+  position: $position;
+  top: $top + px;
+  right: $right + px;
+  bottom: $bottom + px;
+  left: $left + px;
+}
+
+@mixin margin($top: 0, $right: 0, $down: 0, $left: 0) {
+  margin: $top + px $right + px $down + px $left + px;
+}

@@ -1,0 +1,66 @@
+<ng-template
+  #button
+  let-default
+  let-class="buttonClass"
+  let-type="buttonType"
+  let-forceClose="forceClose"
+  let-isDisabled="isDisabled"
+>
+  <app-button
+    [buttonClass]="class"
+    [buttonText]="default"
+    [buttonType]="type"
+    [forceClose]="forceClose"
+    [isDisabled]="isDisabled"
+    (clicked)="onCreate($event)"
+  ></app-button>
+</ng-template>
+
+<section class="modal">
+  <div class="modal__button-close">
+    <ng-container
+      [ngTemplateOutlet]="button"
+      [ngTemplateOutletContext]="{
+        $implicit: closeButtonTitle,
+        buttonClass: buttonClass,
+        buttonType: buttoneOptionType.closeModal
+      }"
+    ></ng-container>
+  </div>
+
+  <form class="form" [formGroup]="addUserForm">
+    <div class="form__title">
+      <h2>{{ addUserModalTitle }}</h2>
+    </div>
+    <div class="form__container">
+      <div class="form__data">
+        <app-input
+          class="form__input"
+          [parentForm]="addUserForm"
+          [inputName]="inputNames.name"
+          [placeHolder]="inputPlaceHolders.name"
+          [erorrValidator]="userExists"
+          [erorrRequired]="requiredField"
+          (inputChange)="inputChange()"
+        ></app-input>
+        <app-toggle-button
+          [data]="onToggleButton"
+          (toggleValue)="toggleValue($event)"
+        ></app-toggle-button>
+      </div>
+
+      <div class="form__create-button">
+        <ng-container
+          [ngTemplateOutlet]="button"
+          [ngTemplateOutletContext]="{
+            $implicit: createUserButtonTitle,
+            buttonClass: buttonClass,
+            buttonType: buttoneOptionType.onClick,
+            forceClose: true,
+            isDisabled: userService.createButtonDisabled$ | async
+          }"
+        ></ng-container>
+      </div>
+    </div>
+  </form>
+</section>

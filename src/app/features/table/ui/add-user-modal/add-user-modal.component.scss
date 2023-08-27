@@ -1,0 +1,44 @@
+@import "../../../../scss/mixins.scss";
+
+.modal {
+  @include positonAbsolute(relative, 150, 0, 0, 0);
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  width: 400px;
+  padding: 20px;
+
+  &__button-close {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.form {
+  &__title {
+    height: 45px;
+    display: flex;
+    justify-content: flex-start;
+    font-size: 2rem;
+    box-sizing: border-box;
+    margin: 0 0 25px 0;
+  }
+
+  &__data {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 70px;
+    align-items: center;
+  }
+
+  &__input {
+    height: 70px;
+  }
+
+  &__create-button {
+    display: flex;
+    justify-content: center;
+    margin: 70px 0 0 0;
+  }
+}

@@ -1,0 +1,24 @@
+<div class="table-container">
+  <div class="table-container__header-button">
+    <app-button
+      [buttonClass]="buttonClass"
+      [buttonText]="addUserButtonTitle"
+      [buttonType]="buttoneOptionType.openModal"
+      [isDisabled]="userService.isButtonDisabled$ | async"
+    ></app-button>
+  </div>
+  <div>
+    <span class="table-container__header-title">{{ tableTitle }}</span>
+  </div>
+
+  <div>
+    <app-table
+      [tableData]="users"
+      [tableDataHeaders]="tableHeaders"
+    ></app-table>
+  </div>
+  <app-add-user-modal
+    class="table-container__add-user"
+    *ngIf="modalService.modal$ | async"
+  ></app-add-user-modal>
+</div>

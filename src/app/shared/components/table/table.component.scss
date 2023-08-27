@@ -1,0 +1,46 @@
+.table {
+  height: 275px;
+  overflow: scroll;
+}
+
+th {
+  border-top: 0px solid;
+  border-right: 1px solid;
+  border-left: 1px solid;
+  border-bottom: 1px solid;
+  border-color: rgba(0, 0, 0, 0.1);
+  height: 20px;
+  padding: 8px 12px;
+  text-align: start;
+}
+
+table tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+tr:hover {
+  background-color: #ededed;
+}
+
+.blank-space {
+  width: 20px;
+}
+
+td {
+  padding: 8px 12px;
+  height: 32px;
+  vertical-align: middle;
+  border-top: 0px solid;
+  border-right: 1px solid;
+  border-left: 1px solid;
+  border-bottom: 1px solid;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.id {
+  text-align: center;
+}
+
+.status {
+  width: 100px;
+}
