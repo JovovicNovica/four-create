@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ButtonTitles, TableTitles } from './data-access/types/enums';
 import {
   ADD_USERS_TABLE_HEADER,
@@ -14,43 +14,37 @@ import {
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { UserServiceService } from './data-access/service/user-service.service';
 import { IUser } from './data-access/types/interfaces';
-import { takeUntil } from 'rxjs/operators';
-import { Subject, forkJoin } from 'rxjs';
+import { Observable } from 'rxjs';
+import { UsersQuery } from 'src/app/features/table/data-access/state/users.query';
+import { UserServiceFacade } from 'src/app/features/table/data-access/state/user.facade';
 
 @Component({
   selector: 'app-add-user-table',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-user-table.component.html',
   styleUrls: ['./add-user-table.component.scss'],
 })
-export class addUserTableComponent implements OnInit, OnDestroy {
+export class addUserTableComponent {
   public buttonClass: ButtonClassType = BUTTON_CLASSES;
   public buttoneOptionType: ButtoneOptionType = BUTTON_TYPE;
   public addUserButtonTitle: ButtonTitlesType = ButtonTitles.ADD_USERS;
   public tableTitle: TableTitlesType = TableTitles.ADD_USERS_TABLE_TITLE;
   public tableHeaders: Array<string> = ADD_USERS_TABLE_HEADER;
-  public users!: IUser[];
-
-  private unsubscribe$: Subject<void> = new Subject<void>();
+  public listOfUsers$: Observable<IUser[]> =
+    this.userServiceFacade.listOfUsers$;
 
   constructor(
     public modalService: ModalService,
-    public userService: UserServiceService
+    public userService: UserServiceService,
+    private userServiceFacade: UserServiceFacade,
+    private usersQuery: UsersQuery
   ) {}
 
-  ngOnInit(): void {
-    this.LoadData();
+  newUserAdded(): void {
+    this.listOfUsers$ = this.usersQuery.selectAll();
   }
 
-  private LoadData(): void {
-    forkJoin([this.userService.getUsersList()])
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((response) => {
-        this.users = response[0];
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+  toggleButton() {
+    this.listOfUsers$ = this.usersQuery.selectAll();
   }
 }

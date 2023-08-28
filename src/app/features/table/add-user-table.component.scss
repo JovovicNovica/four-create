@@ -1,8 +1,9 @@
 @import "../../scss/mixins.scss";
+@import "../../scss/variables.scss";
 
 .table-container {
   width: 700px;
-  background-color: white;
+  background-color: $white-1;
   border: 1px solid;
   border-color: rgba(0, 0, 0, 0.1);
   box-sizing: border-box;

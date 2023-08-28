@@ -24,15 +24,3 @@ export interface IUser {
 export interface UserFormData {
   name: string;
 }
-
-export class User implements IUser {
-  public name: string;
-  public active: boolean;
-  public id?: number;
-
-  constructor(name: string, active: boolean, id?: number) {
-    this.id = id;
-    this.name = name;
-    this.active = active;
-  }
-}

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UserServiceService } from 'src/app/features/table/data-access/service/user-service.service';
 import { IUser } from 'src/app/features/table/data-access/types/interfaces';
+import { UsersService } from 'src/app/features/table/data-access/state/users.service';
 
 @Component({
   selector: 'app-table',
@@ -8,18 +8,21 @@ import { IUser } from 'src/app/features/table/data-access/types/interfaces';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent {
-  @Input() tableData!: IUser[];
+  @Input() tableData!: IUser[] | null;
   @Input() tableDataHeaders!: string[];
   @Output() toggleButton: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private userService: UserServiceService) {}
+  constructor(private usersServiceStore: UsersService) {}
 
-  public trackByUserId(index: number, item: IUser): number | undefined {
-    return index && item ? item.id : undefined;
+  public trackByUserId(index: number, user: IUser): number | undefined {
+    return index && user ? user.id : undefined;
   }
 
-  public toggleValue(event: boolean, id: number | undefined): void {
+  public toggleValue(event: boolean, user: IUser): void {
     this.toggleButton.emit(!event);
-    this.userService.updateUsersList(id);
+    this.usersServiceStore.update({
+      ...user,
+      active: !user.active,
+    });
   }
 }

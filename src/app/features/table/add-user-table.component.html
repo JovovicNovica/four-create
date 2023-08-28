@@ -13,12 +13,15 @@
 
   <div>
     <app-table
-      [tableData]="users"
+      [tableData]="listOfUsers$ | async"
       [tableDataHeaders]="tableHeaders"
+      (toggleButton)="toggleButton()"
     ></app-table>
   </div>
   <app-add-user-modal
     class="table-container__add-user"
     *ngIf="modalService.modal$ | async"
+    [allUsers$]="listOfUsers$"
+    (newUserAdded)="newUserAdded()"
   ></app-add-user-modal>
 </div>

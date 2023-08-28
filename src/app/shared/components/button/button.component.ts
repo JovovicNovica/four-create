@@ -13,7 +13,7 @@ export class ButtonComponent {
   @Input() buttonType!: string;
   @Input() buttonText!: string;
   @Input() forceClose!: boolean;
-  @Input() isDisabled!: boolean | null;
+  @Input() isDisabled!: boolean | 0 | null | undefined;
 
   @Output() clicked: EventEmitter<boolean> = new EventEmitter();
 

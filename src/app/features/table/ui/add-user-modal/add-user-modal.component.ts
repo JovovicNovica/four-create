@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import {
   BUTTON_CLASSES,
@@ -15,7 +22,7 @@ import {
   InputPlaceHoldersType,
 } from '../../data-access/types/types';
 import { ButtonTitles, InputErorrs } from '../../data-access/types/enums';
-import { User, UserFormData } from '../../data-access/types/interfaces';
+import { IUser } from '../../data-access/types/interfaces';
 import { UserServiceService } from '../../data-access/service/user-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UniqUserNameValidator } from 'src/app/shared/utils/uniq-user-name-validator.util';
@@ -23,15 +30,18 @@ import {
   debounceTime,
   distinctUntilChanged,
   startWith,
-  take,
+  takeUntil,
 } from 'rxjs/operators';
+import { UsersService } from 'src/app/features/table/data-access/state/users.service';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { UsersQuery } from 'src/app/features/table/data-access/state/users.query';
 
 @Component({
   selector: 'app-add-user-modal',
   templateUrl: './add-user-modal.component.html',
   styleUrls: ['./add-user-modal.component.scss'],
 })
-export class AddUserModalComponent implements OnInit {
+export class AddUserModalComponent implements OnInit, OnDestroy {
   public buttonClass: ButtonClassType = BUTTON_CLASSES;
   public buttoneOptionType: ButtoneOptionType = BUTTON_TYPE;
   public closeButtonTitle: ButtonTitlesType = ButtonTitles.CLOSE;
@@ -42,10 +52,18 @@ export class AddUserModalComponent implements OnInit {
   public onToggleButton = false;
   public inputNames: InputNamesType = INPUT_NAMES;
   public inputPlaceHolders: InputPlaceHoldersType = INPUT_PLACEHOLDERS;
+  public userLength!: number;
+
+  private destroy$: Subject<void> = new Subject();
+
+  @Input() allUsers$!: Observable<IUser[]>;
+  @Output() newUserAdded: EventEmitter<void> = new EventEmitter();
 
   constructor(
-    public modalService: ModalService,
     private fb: FormBuilder,
+    private userServiceStore: UsersService,
+    private usersQuery: UsersQuery,
+    public modalService: ModalService,
     public userService: UserServiceService
   ) {}
 
@@ -57,19 +75,28 @@ export class AddUserModalComponent implements OnInit {
     ],
   });
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.allUsers$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((users: IUser[]) => (this.userLength = users.length));
+  }
 
   public inputChange(): void {
-    this.addUserForm.valueChanges
-      .pipe(
+    combineLatest([
+      this.addUserForm.valueChanges.pipe(
         startWith(this.addUserForm.value),
         debounceTime(500),
-        take(1),
         distinctUntilChanged()
-      )
-      .subscribe((data: UserFormData) =>
-        this.userService.checkIfCreateButtonIsDisabled(data['name'])
-      );
+      ),
+      this.usersQuery.selectAll(),
+    ])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([formValue, users]) => {
+        this.userService.checkIfCreateButtonIsDisabled(
+          formValue['name'],
+          users
+        );
+      });
   }
 
   public toggleValue(onToggle: boolean): void {
@@ -78,11 +105,18 @@ export class AddUserModalComponent implements OnInit {
 
   public onCreate(allow: boolean): void {
     if (allow) {
-      const newUser = new User(
-        this.addUserForm.controls.name.value,
-        this.onToggleButton
-      );
-      this.userService.addNewUserToUserList(newUser);
+      const newUser = {
+        id: this.userLength + 1,
+        name: this.addUserForm.controls.name.value,
+        active: this.onToggleButton,
+      };
+      this.userServiceStore.add(newUser);
+      this.newUserAdded.emit();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

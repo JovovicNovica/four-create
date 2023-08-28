@@ -18,8 +18,11 @@ export class InputComponent {
   @Input() parentForm!: FormGroup;
   @Input() inputName!: string;
   @Input() placeHolder!: string;
-  @Input() erorrValidator!: InputErorrsType;
-  @Input() erorrRequired!: InputErorrsType;
+  @Input() errorValidator!: InputErorrsType;
+  @Input() errorRequired!: InputErorrsType;
+
+  @Input() error!: any;
+
   @Output() readonly inputChange: EventEmitter<string> = new EventEmitter();
   constructor() {}
 

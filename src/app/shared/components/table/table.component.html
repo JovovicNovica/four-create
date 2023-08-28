@@ -12,12 +12,12 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of tableData; trackBy: trackByUserId">
-        <td class="id">{{ data.id }}</td>
+        <td class="table__id">{{ data.id }}</td>
         <td>{{ data.name }}</td>
-        <td class="status">
+        <td class="table__status">
           <app-toggle-button
             [data]="data.active"
-            (toggleValue)="toggleValue($event, data.id)"
+            (toggleValue)="toggleValue($event, data)"
           ></app-toggle-button>
         </td>
       </tr>

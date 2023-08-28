@@ -1,12 +1,14 @@
+@import "../../../scss/variables.scss";
+
 .add {
   appearance: none;
-  background-color: #fafbfc;
+  background-color: $white-3;
   border: 1px solid rgba(27, 31, 35, 0.15);
   border-radius: 4px;
   box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0,
     rgba(255, 255, 255, 0.25) 0 1px 0 inset;
   box-sizing: border-box;
-  color: #24292e;
+  color: $light-gray-1;
   cursor: pointer;
   display: inline-block;
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
@@ -26,24 +28,24 @@
   word-wrap: break-word;
 
   &:hover {
-    background-color: #f3f4f6;
+    background-color: $white-5;
     text-decoration: none;
     transition-duration: 0.1s;
   }
 
   &:disabled {
-    background-color: #fafbfc;
+    background-color: $white-3;
     border-color: rgba(27, 31, 35, 0.15);
-    color: #959da5;
+    color: $light-gray;
     cursor: default;
 
     &:hover {
-      background-color: #fafbfc;
+      background-color: $white-3;
     }
   }
 
   &:active {
-    background-color: #edeff2;
+    background-color: $white-4;
     box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
     transition: none 0s;
   }

@@ -1,74 +1,39 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
-import { delay, map, takeUntil, tap } from 'rxjs/operators';
+import { delay, map, takeUntil } from 'rxjs/operators';
 import { IUser } from '../types/interfaces';
-import { data } from 'src/assets/mock';
+import { UsersQuery } from 'src/app/features/table/data-access/state/users.query';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserServiceService {
-  private usersListData$ = of(data);
   private destroy$: Subject<void> = new Subject();
-  private allUsersActive$: Observable<boolean> | undefined;
-  private userCount$: Observable<number> | undefined;
-
-  public isButtonDisabled$: Observable<boolean> = new Observable<boolean>();
+  private allUsersActive$: Observable<boolean | undefined> | undefined;
+  private userCount$: Observable<number | undefined> | undefined;
+  public isButtonDisabled$: Observable<boolean | 0 | undefined> =
+    new Observable<boolean>();
   public createButtonDisabled: Subject<boolean> = new BehaviorSubject<boolean>(
     true
   );
   readonly createButtonDisabled$: Observable<boolean> =
     this.createButtonDisabled.pipe(takeUntil(this.destroy$));
 
-  constructor() {
-    this.checkConditionForAddButton();
-  }
+  constructor(private usersQuery: UsersQuery) {}
 
-  getUsersList(): Observable<IUser[]> {
-    return this.usersListData$.pipe(delay(1000));
-  }
-
-  private checkConditionForAddButton(): void {
-    this.allUsersActive$ = this.usersListData$.pipe(
-      map((users: IUser[]) => users.every((user: IUser) => user.active))
-    );
-
-    this.userCount$ = this.usersListData$.pipe(
-      map((users: IUser[]) => users.length)
-    );
+  public checkConditionForAddButton(listOfUsers?: IUser[]): void {
+    this.allUsersActive$ = of(listOfUsers?.every((user: IUser) => user.active));
+    this.userCount$ = of(listOfUsers?.length);
 
     this.isButtonDisabled$ = combineLatest([
       this.allUsersActive$,
       this.userCount$,
-    ]).pipe(map(([allActive, count]) => !allActive || count >= 5));
-  }
-
-  public updateUsersList(updatedUserId: number | undefined): void {
-    this.usersListData$.subscribe((users: IUser[]) => {
-      const userIndex = users.findIndex(
-        (user: IUser) => user.id === updatedUserId
-      );
-
-      if (userIndex !== -1) {
-        users[userIndex].active = !users[userIndex].active;
-        this.checkConditionForAddButton();
-      }
-    });
-  }
-
-  public addNewUserToUserList(newUser: IUser): void {
-    this.usersListData$.subscribe((users: IUser[]) => {
-      users.push({
-        id: users.length + 1,
-        name: newUser.name,
-        active: newUser.active,
-      });
-      this.checkConditionForAddButton();
-    });
+    ]).pipe(map(([allActive, count]) => !allActive || (count && count >= 5)));
   }
 
   checkIfUsernameExists(value: string): Observable<boolean> {
-    return this.usersListData$.pipe(
+    return this.usersQuery.selectAll().pipe(
+      takeUntil(this.destroy$),
       delay(1000),
       map((users: IUser[]) =>
         users.some(
@@ -78,16 +43,10 @@ export class UserServiceService {
     );
   }
 
-  checkIfCreateButtonIsDisabled(isDisabled: string): void {
-    this.usersListData$
-      .pipe(
-        tap((users: IUser[]) => {
-          const test = users.some((user: IUser) => user.name === isDisabled);
-          const isButtonDisabled = test || isDisabled === '' ? true : false;
-          this.createButtonDisabled.next(isButtonDisabled);
-        })
-      )
-      .subscribe();
+  checkIfCreateButtonIsDisabled(name: string, users: IUser[]): void {
+    const test = users.some((user: IUser) => user.name === name);
+    const isButtonDisabled = test || name === '' ? true : false;
+    this.createButtonDisabled.next(isButtonDisabled);
   }
 
   ngOnDestroy(): void {

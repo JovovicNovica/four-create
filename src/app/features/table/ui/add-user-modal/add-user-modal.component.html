@@ -39,8 +39,9 @@
           [parentForm]="addUserForm"
           [inputName]="inputNames.name"
           [placeHolder]="inputPlaceHolders.name"
-          [erorrValidator]="userExists"
-          [erorrRequired]="requiredField"
+          [errorValidator]="userExists"
+          [errorRequired]="requiredField"
+          [error]="userService.createButtonDisabled$ | async"
           (inputChange)="inputChange()"
         ></app-input>
         <app-toggle-button

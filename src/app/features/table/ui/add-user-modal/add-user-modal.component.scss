@@ -1,10 +1,11 @@
 @import "../../../../scss/mixins.scss";
+@import "../../../../scss/variables.scss";
 
 .modal {
   @include positonAbsolute(relative, 150, 0, 0, 0);
   margin-left: auto;
   margin-right: auto;
-  background-color: white;
+  background-color: $white-1;
   width: 400px;
   padding: 20px;
 

@@ -12,11 +12,12 @@
   <span
     class="input__error"
     *ngIf="
-      !parentForm.get('password')?.dirty &&
-      parentForm.get(inputName)?.errors?.userNameExists
+      error &&
+      parentForm.get(inputName)?.touched &&
+      !parentForm.get(inputName)?.pristine
     "
   >
-    {{ erorrValidator }}
+    {{ errorValidator }}
   </span>
   <span
     class="input__error"
@@ -27,6 +28,6 @@
         parentForm.get(inputName)?.pristine)
     "
   >
-    {{ erorrRequired }}
+    {{ errorRequired }}
   </span>
 </div>
