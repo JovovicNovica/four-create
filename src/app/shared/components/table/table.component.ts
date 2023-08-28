@@ -1,8 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IUser } from 'src/app/features/table/data-access/types/interfaces';
 import { UsersService } from 'src/app/features/table/data-access/state/users.service';
+import { NgClass, NgFor } from '@angular/common';
+import { ToggleButtonComponent } from '../toggle-button/toggle-button.component';
 
 @Component({
+  standalone: true,
+  imports: [NgClass, NgFor, ToggleButtonComponent],
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],

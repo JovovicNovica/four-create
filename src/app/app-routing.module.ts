@@ -5,8 +5,8 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./features/table/add-user-table.module').then(
-        (m) => m.AddUserTableModule
+      import('./features/table/data-access/routes/add-user-table-routes').then(
+        (m) => m.TABLE_ROUTES
       ),
   },
 ];

@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,10 +6,12 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { InputErorrsType } from 'src/app/features/table/data-access/types/types';
 
 @Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, NgIf],
   selector: 'app-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './input.component.html',

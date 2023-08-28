@@ -4,6 +4,7 @@ import { ButtonClassType } from 'src/app/features/table/data-access/types/types'
 import { IActionsMap } from '../../types/interfaces/button.interface';
 
 @Component({
+  standalone: true,
   selector: 'app-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],

@@ -17,8 +17,21 @@ import { IUser } from './data-access/types/interfaces';
 import { Observable } from 'rxjs';
 import { UsersQuery } from 'src/app/features/table/data-access/state/users.query';
 import { UserServiceFacade } from 'src/app/features/table/data-access/state/user.facade';
+import { AddUserModalComponent } from './ui/add-user-modal/add-user-modal.component';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { ToggleButtonComponent } from 'src/app/shared/components/toggle-button/toggle-button.component';
+import { CommonModule } from '@angular/common';
+import { TableComponent } from 'src/app/shared/components/table/table.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    AddUserModalComponent,
+    CommonModule,
+    ButtonComponent,
+    ToggleButtonComponent,
+    TableComponent,
+  ],
   selector: 'app-add-user-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './add-user-table.component.html',

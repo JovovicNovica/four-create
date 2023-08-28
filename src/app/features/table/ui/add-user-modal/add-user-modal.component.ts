@@ -24,7 +24,12 @@ import {
 import { ButtonTitles, InputErorrs } from '../../data-access/types/enums';
 import { IUser } from '../../data-access/types/interfaces';
 import { UserServiceService } from '../../data-access/service/user-service.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { UniqUserNameValidator } from 'src/app/shared/utils/uniq-user-name-validator.util';
 import {
   debounceTime,
@@ -35,8 +40,20 @@ import {
 import { UsersService } from 'src/app/features/table/data-access/state/users.service';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { UsersQuery } from 'src/app/features/table/data-access/state/users.query';
+import { CommonModule } from '@angular/common';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { ToggleButtonComponent } from 'src/app/shared/components/toggle-button/toggle-button.component';
+import { InputComponent } from 'src/app/shared/components/input/input.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    ButtonComponent,
+    ToggleButtonComponent,
+    InputComponent,
+  ],
   selector: 'app-add-user-modal',
   templateUrl: './add-user-modal.component.html',
   styleUrls: ['./add-user-modal.component.scss'],
