@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { InputErorrsType } from 'src/app/features/table/data-access/types/types';
 
 @Component({
@@ -15,7 +15,7 @@ import { InputErorrsType } from 'src/app/features/table/data-access/types/types'
   styleUrls: ['./input.component.scss'],
 })
 export class InputComponent {
-  @Input() parentForm!: FormGroup;
+  @Input() parentForm!: UntypedFormGroup;
   @Input() inputName!: string;
   @Input() placeHolder!: string;
   @Input() errorValidator!: InputErorrsType;

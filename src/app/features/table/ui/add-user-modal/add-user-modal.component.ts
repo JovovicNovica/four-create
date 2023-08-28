@@ -24,7 +24,7 @@ import {
 import { ButtonTitles, InputErorrs } from '../../data-access/types/enums';
 import { IUser } from '../../data-access/types/interfaces';
 import { UserServiceService } from '../../data-access/service/user-service.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UniqUserNameValidator } from 'src/app/shared/utils/uniq-user-name-validator.util';
 import {
   debounceTime,
@@ -60,14 +60,14 @@ export class AddUserModalComponent implements OnInit, OnDestroy {
   @Output() newUserAdded: EventEmitter<void> = new EventEmitter();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private userServiceStore: UsersService,
     private usersQuery: UsersQuery,
     public modalService: ModalService,
     public userService: UserServiceService
   ) {}
 
-  public addUserForm: FormGroup = this.fb.group({
+  public addUserForm: UntypedFormGroup = this.fb.group({
     name: [
       '',
       [Validators.maxLength(30), Validators.required],
